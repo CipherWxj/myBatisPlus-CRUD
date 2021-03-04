@@ -2,16 +2,12 @@ package com.example.mp.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mp.service.UserService;
-import com.example.mp.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.mp.dao.UserMapper;
 import com.example.mp.model.User;
 
 import javax.annotation.Resource;
-import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 /**
  @Description: controller层，实现CURD
@@ -23,10 +19,7 @@ import java.util.List;
 public class UserController {
 
     @Resource
-    private UserMapper userMapper;
-
-    @Resource
-    private UserServiceImpl userService;
+    private UserService userService;
 
     /**
     *Create
@@ -35,7 +28,8 @@ public class UserController {
     public Object add(@RequestBody User user){
         Date now = new Date();
         user.setCreateTime(now);
-        return userMapper.insert(user);
+        System.out.println(now);
+        return userService.save(user);
 
     }
 
@@ -44,7 +38,7 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     public Object deleteById(@PathVariable("id") Integer id){
-        return userMapper.deleteById(id);
+        return userService.removeById(id);
     }
 
     /**
@@ -52,7 +46,7 @@ public class UserController {
      */
     @PutMapping
     public Object updateById(@RequestBody User user){
-        return userMapper.updateById(user);
+        return userService.updateById(user);
     }
 
     /**
